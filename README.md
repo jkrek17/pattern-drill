@@ -1,1 +1,14 @@
-# patterndrill
+# Pattern drill
+
+A training game for marine forecasters: read GFS analysis maps around a low and call the wind ASCAT saw, now or 24 hours later.
+
+- **Right now**: call the peak wind category (none, gale 34-47 kt, storm 48-63 kt, hurricane force 64+ kt) within 500 km of the circled low, and tap where the peak is.
+- **Forecast +24 h**: call grow, hold or decay, then the category.
+- **Pairs**: two lows that looked alike but went opposite ways.
+- **Benchmark**: a fixed 20-case check to take before and after practice.
+
+194 cases from winters 2024-25 and 2025-26, North Atlantic and North Pacific. Stats stay in your browser.
+
+This repository holds the built site only. The code that picks the cases and builds the deck is in `jkrek17/marine-research` (`studies/2026-11-05-pattern-drill/`); update this site with `page/export_site.py`.
+
+Data: NOAA GFS analyses; NOAA GOES air-mass bands and GridSat-B1 infrared; ASCAT winds from Remote Sensing Systems. Training use only; not an official forecast product.
