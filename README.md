@@ -8,7 +8,7 @@ Training drills for marine forecasters, on real past storms and judged against w
   - **Storm or HF?**: storm force or more on every map; is it 48-63 kt or 64+?
   - **Benchmark**: 20 fixed Beat the model cases to take before and after practice.
   - 334 cases over the five winters 2021-26, North Atlantic and North Pacific.
-- **Front drill** (`fronts/`): analyse fronts on Atlantic storms against the OPC unified surface analysis (when published).
+- **Front drill** (`fronts/`): draw the fronts on real storms (North Atlantic and Northeast Pacific) and compare with the Unified Surface Analysis; 522 cases.
 
 This repository holds the built site only. The code is in `jkrek17/marine-research`: the wind drill in `studies/2026-11-05-pattern-drill/` and the front drill in `studies/2026-11-06-front-drill/`.
 
