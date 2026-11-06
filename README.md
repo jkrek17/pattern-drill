@@ -3,10 +3,10 @@
 Training drills for marine forecasters, on real past storms and judged against what was observed. Stats stay in your browser.
 
 - **Wind drill** (`wind/`): read model maps around a storm and call the strongest wind ASCAT saw or will see (none, gale 34-47 kt, storm 48-63 kt, hurricane force 64+ kt).
-  - **Right now**: maps at the time of an ASCAT pass.
-  - **Beat the model**: GFS and ECMWF +24 h forecast maps; your score is set against the models' own and against 925 mb wind × stability.
-  - **Storm or HF?**: storm force or more on every map; is it 48-63 kt or 64+?
-  - **Benchmark**: 20 fixed Beat the model cases to take before and after practice.
+  - **Analysis**: GFS analysis maps at the time of an ASCAT pass.
+  - **24-hour forecast**: GFS and ECMWF +24 h forecast maps; your score is set against the models' own and against 925 mb wind × stability.
+  - **Storm or hurricane force**: storm force or more on every map; is it 48-63 kt or 64+?
+  - **Benchmark**: 20 fixed 24-hour forecast cases to take before and after practice.
   - 334 cases over the five winters 2021-26, North Atlantic and North Pacific.
 - **Front drill** (`fronts/`): draw the fronts on real storms (North Atlantic and Northeast Pacific) and compare with the Unified Surface Analysis; 522 cases.
 
