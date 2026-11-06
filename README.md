@@ -1,22 +1,23 @@
-# Pattern drill
+# Training
 
-A training game for marine forecasters: read GFS analysis maps around a low and call the wind ASCAT saw, now or 24 hours later.
+Training drills for marine forecasters, on real past storms and judged against what was observed. Stats stay in your browser.
 
-- **Right now**: call the peak wind category (none, gale 34-47 kt, storm 48-63 kt, hurricane force 64+ kt): the strongest wind ASCAT saw anywhere on the map (the circled low is the deepest one), and tap where it is.
-- **Beat the model**: read the GFS and ECMWF +24 h forecast maps and call what ASCAT will show; your score is set against the models' own.
-- **Pairs**: two lows that looked alike but went opposite ways.
-- **Benchmark**: a fixed 20-case check to take before and after practice.
+- **Wind drill** (`wind/`): read model maps around a storm and call the strongest wind ASCAT saw or will see (none, gale 34-47 kt, storm 48-63 kt, hurricane force 64+ kt).
+  - **Right now**: maps at the time of an ASCAT pass.
+  - **Beat the model**: GFS and ECMWF +24 h forecast maps; your score is set against the models' own and against 925 mb wind × stability.
+  - **Storm or HF?**: storm force or more on every map; is it 48-63 kt or 64+?
+  - **Benchmark**: 20 fixed Beat the model cases to take before and after practice.
+  - 334 cases over the five winters 2021-26, North Atlantic and North Pacific.
+- **Front drill** (`fronts/`): analyse fronts on Atlantic storms against the OPC unified surface analysis (when published).
 
-174 cases from winters 2024-25 and 2025-26, North Atlantic and North Pacific. Stats stay in your browser.
+This repository holds the built site only. The code is in `jkrek17/marine-research`: the wind drill in `studies/2026-11-05-pattern-drill/` and the front drill in `studies/2026-11-06-front-drill/`.
 
-This repository holds the built site only. The code that picks the cases and builds the deck is in `jkrek17/marine-research` (`studies/2026-11-05-pattern-drill/`); update this site with `page/export_site.py`.
-
-Data: NOAA GFS analyses; NOAA GOES air-mass bands and GridSat-B1 infrared; ASCAT winds from Remote Sensing Systems. Training use only; not an official forecast product.
+Data: NOAA GFS analyses and forecasts; ECMWF open data; NOAA GOES air-mass bands and GridSat-B1 infrared; ASCAT winds from Remote Sensing Systems; WPC/OPC coded surface analyses. Training use only; not an official forecast product.
 
 ## Updating the site
 
-From a clone of `jkrek17/marine-research`, after rebuilding the deck:
+From a clone of `jkrek17/marine-research`:
 
-    python3 studies/2026-11-05-pattern-drill/page/export_site.py <path to this clone>
+    python3 studies/2026-11-05-pattern-drill/page/export_site.py <path to this clone>   # landing page + wind/
 
-then commit and push here. GitHub Pages serves `main` from the root.
+then commit and push here. The front drill thread writes `fronts/` with its own export. GitHub Pages serves `main` from the root.

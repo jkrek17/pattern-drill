@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Wind drill · Training</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="../">Training</a>
+  <nav class="sitenav" aria-label="Drills"><button id="homeBtn" type="button" aria-current="page" title="Back to the wind drill start">Wind</button><a id="navFronts" href="../fronts/" hidden>Fronts</a></nav>
+  <div class="topright">
+    <span id="topPts" class="pts" aria-live="polite">0 pts</span>
+    <button id="statsBtn" class="btn small" type="button">Stats</button>
+  </div>
+</header>
+<div id="leaveBanner" class="leave" role="alertdialog" aria-label="Leave blitz?" hidden>
+  <span id="leaveTxt">Leave blitz? Your progress in this blitz will be lost.</span>
+  <span class="leavebtns"><button id="leaveYes" class="btn small" type="button">Yes</button><button id="leaveNo" class="btn small primary" type="button">No</button></span>
+</div>
+
+<main>
+  <div id="loadMsg" class="note">Loading deck...</div>
+
+  <section id="start" class="screen" hidden>
+    <h1>Wind drill: call the strongest wind</h1>
+    <p class="lead">Model maps around a storm. Call the strongest wind ASCAT saw anywhere on the map: none, gale, storm or HF. Best clue: the model wind lifted at the top, checked against the strongest 925 mb wind and sea minus air (<button type="button" class="linkbtn" id="ingLink">Reading the wind</button>).</p>
+    <p class="policy" id="policy">A miss costs more than a false alarm, as on the desk.</p>
+
+    <h2>Game</h2>
+    <div class="choice three" id="gameChoice" role="radiogroup" aria-label="Game">
+      <button type="button" role="radio" data-v="now" class="opt on" aria-checked="true"><b>Right now</b><span>Maps at an ASCAT pass. What did it show?</span></button>
+      <button type="button" role="radio" data-v="bm" class="opt" aria-checked="false"><b>Beat the model</b><span>GFS and ECMWF +24 h maps. What will ASCAT show?</span></button>
+      <button type="button" role="radio" data-v="sh" class="opt" aria-checked="false"><b>Storm or HF?</b><span>Storm force or more on every map. 48-63 kt or 64+?</span></button>
+    </div>
+
+    <h2>Mode</h2>
+    <div class="choice" id="modeChoice" role="radiogroup" aria-label="Mode">
+      <button type="button" role="radio" data-v="practice" class="opt on" aria-checked="true"><b>Practice</b><span>Endless, no clock.</span></button>
+      <button type="button" role="radio" data-v="blitz" class="opt" aria-checked="false"><b>Blitz</b><span>10 cases, 60 s each.</span></button>
+    </div>
+
+    <div class="toggles">
+      <label class="toggle"><input type="checkbox" id="hints"> <span><b>Hints</b> <small>A short "Look for" tip under each map.</small></span></label>
+      <label class="toggle"><input type="checkbox" id="weak"> <span><b>Weak spots</b> <small>After 8 cases, more of what you miss most.</small></span></label>
+    </div>
+
+    <p id="startMsg" class="fine" role="status"></p>
+    <button id="startBtn" class="btn primary big" type="button">Start</button>
+    <div class="morebtns">
+      <button id="benchBtn" class="btn" type="button" hidden>Benchmark: 20 cases</button>
+      <button id="ingBtn" class="btn" type="button">Reading the wind</button>
+      <button id="exportBtn" class="btn" type="button">Export results (CSV)</button>
+    </div>
+    <p id="exportMsg" class="fine" role="status"></p>
+
+    <details class="points">
+      <summary>How scoring works</summary>
+      <p><b>Category call</b>: exact 100. Over by one 50, by two or more 10. Under by one 25, by two or more 0. Missing an observed HF -25.</p>
+      <p><b>Benchmarks on every case</b>: GFS and ECMWF (their own strongest 10 m wind) and 925 &times; stability (strongest 925 mb wind on the map times a mixing factor from sea minus air) are scored the same way, so the stats show whether you beat them.</p>
+      <p><b>Benchmark</b>: the same 20 Beat the model cases each run, no hints, no feedback until the end; history stays on this device.</p>
+      <p class="fine">Categories: none under 34 kt, gale 34-47, storm 48-63, HF 64+. Truth: the strongest ASCAT 10 m wind anywhere on the map (3rd highest cell). The circled low is the deepest on the map. Maps are GFS analyses and GFS/ECMWF +24 h forecasts (ECMWF only 00/12Z runs from March 2025). Five winters, 2021-26. Dates are hidden. Session stats clear when you close the tab.</p>
+    </details>
+  </section>
+
+  <section id="play" class="screen" hidden>
+    <div class="playgrid">
+      <div class="left">
+        <div class="statusbar">
+          <span id="pCase"></span>
+          <span id="pGame" class="chip"></span>
+          <span id="pBasin" class="chip"></span>
+          <span id="pTimer" class="timer" hidden></span>
+        </div>
+        <div id="timerbar" class="timerbar" hidden><i></i></div>
+        <div class="tabs" id="tabs" role="tablist" aria-label="Map"></div>
+        <div class="cap" id="cap"></div>
+        <div class="tapnote" id="tapNote" hidden></div>
+        <div class="mapbox" id="mapbox"><canvas id="map" aria-label="Map"></canvas><div id="mapLoad" class="maploading">Loading case...</div></div>
+        <div class="hint" id="hint" hidden></div>
+        <div class="legend" id="legend"></div>
+        <div class="swipehint" id="swipeHint">Swipe the map or use the tabs. Arrow keys also work.</div>
+      </div>
+      <div class="right">
+        <div id="nowline" class="nowline" hidden></div>
+        <h2 id="question" class="q"></h2>
+        <p id="catNote" class="catnote" hidden>None &lt;34 kt &middot; Gale 34-47 &middot; Storm 48-63 &middot; HF 64+ &middot; peak = strongest wind anywhere on the map</p>
+        <div id="answers" class="answers"></div>
+        <div id="result" class="result" tabindex="-1" aria-live="polite" hidden></div>
+        <div id="debrief" class="debrief" hidden></div>
+        <button id="nextBtn" class="btn primary big" type="button" hidden>Next case</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="ingr" class="screen" hidden>
+    <button id="ingBack" class="btn small" type="button">Back</button>
+    <div id="ingBody"></div>
+  </section>
+
+  <section id="end" class="screen" hidden>
+    <h1 id="endTitle">Blitz done</h1>
+    <div id="endBody"></div>
+    <div class="row">
+      <button id="againBtn" class="btn primary big" type="button">Play again</button>
+      <button id="endHomeBtn" class="btn big" type="button">Change game</button>
+    </div>
+  </section>
+  <footer class="credits">Maps: NOAA GFS analyses. Satellite: NOAA GOES-East/West air-mass bands and NOAA GridSat-B1 infrared. Wind truth: ASCAT (Metop-B/C) from Remote Sensing Systems. Training use only; not an official forecast product.</footer>
+</main>
+
+<div id="drawer" class="drawer" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-label="Session stats">
+    <div class="sheethead"><h2>Session stats</h2><button id="closeStats" class="btn small" type="button">Close</button></div>
+    <div id="statsBody"></div>
+    <button id="statsIng" class="btn small" type="button">Reading the wind</button>
+    <button id="statsExport" class="btn small" type="button">Export results (CSV)</button>
+    <p class="fine">Stats stay on this device. Session stats live in this browser tab and clear when you close it; benchmark history is kept in this browser's local storage. Nothing is sent anywhere.</p>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
