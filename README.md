@@ -3,7 +3,7 @@
 A training game for marine forecasters: read GFS analysis maps around a low and call the wind ASCAT saw, now or 24 hours later.
 
 - **Right now**: call the peak wind category (none, gale 34-47 kt, storm 48-63 kt, hurricane force 64+ kt): the strongest wind ASCAT saw anywhere on the map (the circled low is the deepest one), and tap where it is.
-- **Forecast +24 h**: call grow, hold or decay, then the category.
+- **Beat the model**: read the GFS and ECMWF +24 h forecast maps and call what ASCAT will show; your score is set against the models' own.
 - **Pairs**: two lows that looked alike but went opposite ways.
 - **Benchmark**: a fixed 20-case check to take before and after practice.
 
